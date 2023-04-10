@@ -22,7 +22,7 @@ class TodoList(generics.ListAPIView):
         # Todo.objects.filter(user = user)
         return Todo.objects.filter().order_by("-created")
     
-    
+  
 class TodoListCreate(generics.ListCreateAPIView):
     serializer_class = TodoSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -30,7 +30,7 @@ class TodoListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         # Todo.objects.filter(user = user)
-        return Todo.objects.filter().order_by("-created")
+        return Todo.objects.filter(user = user).order_by("-created")
     
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
@@ -43,7 +43,7 @@ class TodoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         # Todo.objects.filter(user = user)
-        return Todo.objects.filter()
+        return Todo.objects.filter(user = user)
 
 
 class TodoToggleComplete(generics.UpdateAPIView):
@@ -103,7 +103,8 @@ def login(request):
                 
                 return JsonResponse(
                      {
-                            'OK' : 'Login successfully ... !!!: '+str(token)
+                            'token' : str(token)
+                            
                      }, status = 200
                  ) 
             except:
