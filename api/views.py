@@ -20,7 +20,7 @@ class TodoList(generics.ListAPIView):
     def get_queryset(self): 
         user = self.request.user
         # Todo.objects.filter(user = user)
-        return Todo.objects.filter().order_by("-created")
+        return Todo.objects.filter(user = user).order_by("-created")
     
   
 class TodoListCreate(generics.ListCreateAPIView):
